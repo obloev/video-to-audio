@@ -1,6 +1,7 @@
 from telethon import events
 from telethon.errors import UserNotParticipantError
 from telethon.tl.functions.channels import GetParticipantRequest
+from telethon.tl.types import PeerChannel
 
 from database.models import User
 from loader import client, CHANNEL
@@ -10,7 +11,8 @@ from plugins.utils import typing_action
 
 async def check_membership(user_id):
     try:
-        sub = await client(GetParticipantRequest(CHANNEL, user_id))
+        channel = await client.get_entity(PeerChannel(CHANNEL))
+        sub = await client(GetParticipantRequest(channel, user_id))
         status = sub.stringify()
         if 'left' in status:
             return False
