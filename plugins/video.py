@@ -1,6 +1,7 @@
 import os
 
 from telethon import events
+from telethon.tl import types
 
 from database.models import User
 from loader import client, ADMIN
@@ -82,6 +83,7 @@ async def send_mp3_handler(event: events.newmessage.NewMessage.Event):
     os.rename(mp3_file, new_filename)
     await client(typing_action(event.chat_id))
     message = await event.respond(sending_messages[lang])
+    print(type(message))
     progress = Progress(message, lang)
     await client(uploading_audio_action(event.sender_id))
     bot = await client.get_me()

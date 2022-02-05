@@ -51,7 +51,7 @@ class Progress:
         etime = (total - current) // speed
         self.last_size = current
         self.last_time = now
-        if self.count % 4 == 0:
+        if self.count % 6 == 0:
             await self.message.edit(
                 down_up_messages[self.lang].format(
                     progress_bar(percent), self.message.text, percent, size(current),
@@ -83,7 +83,7 @@ class ffmpegProgress:
             self.bash, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
         )
         while proce.returncode != 0:
-            await asyncio.sleep(1)
+            await asyncio.sleep(1.5)
             progress_file = open(self.progress, "r+")
             text = progress_file.read()
             us = re.findall("out_time_ms=(\\d+)", text)
