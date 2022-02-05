@@ -34,7 +34,7 @@ async def video_handler(event: events.newmessage.NewMessage.Event):
             return
     await client(typing_action(event.chat_id))
     message = await event.respond(downloading_messages[lang])
-    progress = Progress(message, lang)
+    progress = Progress(message, lang, event.sender_id)
     attributes = event.media.document.attributes
     if len(attributes) > 1:
         file_name = attributes[1].file_name
@@ -63,7 +63,7 @@ async def send_audio_handler(event: events.callbackquery.CallbackQuery.Event):
     mp3_file = f"media/{event.sender_id}/{os.listdir(f'media/{event.sender_id}')[0]}"
     await client(typing_action(event.chat_id))
     message = await event.respond(sending_messages[lang])
-    progress = Progress(message, lang, sending=True)
+    progress = Progress(message, lang, event.sender_id, sending=True)
     bot = await client.get_me()
     await client.send_file(event.chat_id, mp3_file, progress_callback=progress.progress_callback,
                            force_document=False, caption=f'@{bot.username}')
@@ -82,7 +82,7 @@ async def send_mp3_handler(event: events.newmessage.NewMessage.Event):
     os.rename(mp3_file, new_filename)
     await client(typing_action(event.chat_id))
     message: Message = await event.respond(sending_messages[lang])
-    progress = Progress(message, lang, sending=True)
+    progress = Progress(message, lang, event.sender_id, sending=True)
     bot = await client.get_me()
     await client.send_file(event.chat_id, new_filename, progress_callback=progress.progress_callback,
                            force_document=False, caption=f'@{bot.username}')

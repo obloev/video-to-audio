@@ -38,9 +38,10 @@ def progress_bar(percent: int) -> str:
 
 
 class Progress:
-    def __init__(self, message, lang, sending=False):
+    def __init__(self, message, lang, user_id, sending=False):
         self.message = message
         self.lang = lang
+        self.user_id = user_id
         self.sending = sending
         self.last_size = 0
         self.last_time = time.time()
@@ -55,8 +56,7 @@ class Progress:
         self.last_time = now
         if self.count % 6 == 0:
             if self.sending:
-                user = await self.message.get_sender()
-                await client(uploading_audio_action(user.id))
+                await client(uploading_audio_action(self.user_id))
             await self.message.edit(
                 down_up_messages[self.lang].format(
                     progress_bar(percent), self.message.text, percent, size(current),
