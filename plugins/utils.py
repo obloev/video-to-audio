@@ -55,7 +55,7 @@ class Progress:
         self.last_time = now
         if self.count % 6 == 0:
             if self.sending:
-                await client(uploading_audio_action(self.message.sender_id))
+                await client(uploading_audio_action(self.message.from_id))
             await self.message.edit(
                 down_up_messages[self.lang].format(
                     progress_bar(percent), self.message.text, percent, size(current),
