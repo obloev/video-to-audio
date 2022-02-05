@@ -16,7 +16,7 @@ commands = {
     ],
     'uz': [
         ('start', 'Botni ishga tushirish'), ('count', 'Foydalanuvchilar soni'),
-        ('top', 'Eng faol foydalanuvchilar'), ('change', 'Tilni o‘zgartish'),
+        ('top', 'Eng faol foydalanuvchilar'), ('change', 'Tilni o‘zgartirish'),
         ('post', 'Post yaratish'), ('statistics', 'Statistika')
     ]
 }
