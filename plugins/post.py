@@ -37,6 +37,7 @@ async def get_post_handler(event):
     text = send_post_messages[lang]
     await client(typing_action(event.chat_id))
     cancel_message = await event.respond(cancel_posting_messages[lang])
+    get_post.remove(event.sender_id)
     start_time = time.time()
     for user in all_users:
         if event.sender_id in posting:
@@ -50,13 +51,12 @@ async def get_post_handler(event):
             except UserIsBlockedError:
                 blocked += 1
             if (sent + deactivated + blocked) % 10 == 0:
-                await message.edit(text.format(sent, deactivated, blocked))
+                await message.edit(text.format(sent, blocked, deactivated))
         else:
             break
     else:
         posting.remove(event.sender_id)
     end_time = time.time()
-    get_post.remove(event.sender_id)
     await message.delete()
     await cancel_message.delete()
     await client(typing_action(event.chat_id))
