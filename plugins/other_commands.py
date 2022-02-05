@@ -53,10 +53,11 @@ async def statistics_handler(event: events.newmessage.NewMessage.Event):
     langs = {}
     users = await User.get_users()
     for user in users:
-        if user.lang not in langs:
-            langs[user.lang] = 1
-        else:
-            langs[user.lang] += 1
+        if user.lang is not None:
+            if user.lang not in langs:
+                langs[user.lang] = 1
+            else:
+                langs[user.lang] += 1
     all_langs = sum(langs.values())
     for lang in langs:
         text += statistics_messages[lang][1].format(lang, langs[lang], round(langs[lang] * 100 / all_langs))

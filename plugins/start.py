@@ -21,7 +21,7 @@ async def start_handler(event: events.newmessage.NewMessage.Event):
             await User.add_referrals(referral_id)
     if not await User.user_exist(event.sender_id):
         await User.create_user(event.sender_id)
-        await client.send_message(GROUP, f'<a href="tg://user?id={event.sender_id}">{event.sender.first_name}</a>'
+        await client.send_message(GROUP, f'<a href="tg://user?id={event.sender_id}">{event.sender.first_name}</a> '
                                          f'joined the bot')
     if await User.get_lang(event.sender_id) is None:
         await client(typing_action(event.chat_id))

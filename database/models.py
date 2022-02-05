@@ -80,5 +80,5 @@ class User(db.Model):
 
     @staticmethod
     async def get_top_users(limit: int):
-        users = await User.query.order_by(User.conversions.desc()).limit(limit + 1).gino.all()
+        users = await User.query.order_by(User.conversions.desc()).limit(limit).gino.all()
         return users
