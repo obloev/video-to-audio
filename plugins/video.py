@@ -64,8 +64,9 @@ async def send_audio_handler(event: events.callbackquery.CallbackQuery.Event):
     message = await event.respond(sending_messages[lang])
     progress = Progress(message, lang)
     await client(uploading_audio_action(event.sender_id))
+    bot = await client.get_me()
     await client.send_file(event.chat_id, mp3_file, progress_callback=progress.progress_callback,
-                           force_document=False)
+                           force_document=False, caption=f'@{bot.username}')
     await message.delete()
     os.remove(mp3_file)
 
@@ -83,8 +84,9 @@ async def send_mp3_handler(event: events.newmessage.NewMessage.Event):
     message = await event.respond(sending_messages[lang])
     progress = Progress(message, lang)
     await client(uploading_audio_action(event.sender_id))
+    bot = await client.get_me()
     await client.send_file(event.chat_id, new_filename, progress_callback=progress.progress_callback,
-                           force_document=False)
+                           force_document=False, caption=f'@{bot.username}')
     await message.delete()
     get_filename_users.remove(event.sender_id)
     os.remove(new_filename)

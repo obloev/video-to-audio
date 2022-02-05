@@ -65,7 +65,7 @@ def typing_action(chat_id):
 
 
 def uploading_audio_action(chat_id):
-    return functions.messages.SetTypingRequest(chat_id, types.SendMessageUploadAudioAction(0))
+    return functions.messages.SetTypingRequest(chat_id, types.SendMessageUploadAudioAction(600))
 
 
 class ffmpegProgress:
@@ -100,4 +100,4 @@ class ffmpegProgress:
                     progress_bar(percent), converting_messages[self.lang], percent, time_f(etime)
                 ))
             progress_file.close()
-        os.remove(self.progress)
+        return os.remove(self.progress)

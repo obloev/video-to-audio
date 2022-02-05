@@ -31,7 +31,7 @@ async def top_users_handler(event: events.newmessage.NewMessage.Event):
     text = ''
     for n, user in enumerate(top_users, start=1):
         user_info = await client.get_entity(user.user_id)
-        text += top_users_messages[lang].format(n, user_info.first_name, user.conversions)
+        text += top_users_messages[lang].format(n, user.user_id, user_info.first_name, user.conversions)
     return await message.edit(text)
 
 

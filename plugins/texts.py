@@ -41,15 +41,15 @@ not_member_messages = {
 }
 
 top_users_messages = {
-    'en': '{}. {} - {} times\n',
-    'ru': '{}. {} - {} раз\n',
-    'uz': '{}. {} - {} marta\n'
+    'en': '<b>{}.</b> <a href="tg://user?id={}">{}</a> - {} times\n',
+    'ru': '<b>{}.</b> <a href="tg://user?id={}">{}</a> - {} раз\n',
+    'uz': '<b>{}.</b> <a href="tg://user?id={}">{}</a> - {} marta\n'
 }
 
 statistics_messages = {
-    'en': ('Conversions: {}\n\n', '{}: {} ({}%)\n'),
-    'ru': ('Конверсии: {}\n\n', '{}: {} ({}%)\n'),
-    'uz': ('O‘girishlar: {}\n\n', '{}: {} ({}%)\n'),
+    'en': ('<b>Conversions:</b> {}\n\n', '<b>{}:</b> {} ({}%)\n'),
+    'ru': ('<b>Конверсии:</b> {}\n\n', '<b>{}:</b> {} ({}%)\n'),
+    'uz': ('<b>O‘girishlar:</b> {}\n\n', '<b>{}:</b> {} ({}%)\n'),
 }
 
 send_post_messages = {
