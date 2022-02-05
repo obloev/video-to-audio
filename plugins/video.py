@@ -1,7 +1,7 @@
 import os
 
 from telethon import events
-from telethon.tl import types
+from telethon.tl.patched import Message
 
 from database.models import User
 from loader import client, ADMIN
@@ -9,7 +9,7 @@ from plugins.buttons import filename_buttons, language_buttons, subscribe_button
 from plugins.subscribe import check_membership
 from plugins.texts import subscribe_messages, downloading_messages, converting_messages, sending_messages, \
     preferred_name_messages, name_file_messages, file_too_large_messages, invite_messages
-from plugins.utils import Progress, typing_action, ffmpegProgress, uploading_audio_action
+from plugins.utils import Progress, typing_action, ffmpegProgress
 
 video_filter = lambda e: e.video or e.media and 'video' in e.media.document.mime_type
 
@@ -63,8 +63,7 @@ async def send_audio_handler(event: events.callbackquery.CallbackQuery.Event):
     mp3_file = f"media/{event.sender_id}/{os.listdir(f'media/{event.sender_id}')[0]}"
     await client(typing_action(event.chat_id))
     message = await event.respond(sending_messages[lang])
-    progress = Progress(message, lang)
-    await client(uploading_audio_action(event.sender_id))
+    progress = Progress(message, lang, sending=True)
     bot = await client.get_me()
     await client.send_file(event.chat_id, mp3_file, progress_callback=progress.progress_callback,
                            force_document=False, caption=f'@{bot.username}')
@@ -82,10 +81,8 @@ async def send_mp3_handler(event: events.newmessage.NewMessage.Event):
     new_filename = f'media/{event.sender_id}/{event.message.text}.mp3'
     os.rename(mp3_file, new_filename)
     await client(typing_action(event.chat_id))
-    message = await event.respond(sending_messages[lang])
-    print(type(message))
-    progress = Progress(message, lang)
-    await client(uploading_audio_action(event.sender_id))
+    message: Message = await event.respond(sending_messages[lang])
+    progress = Progress(message, lang, sending=True)
     bot = await client.get_me()
     await client.send_file(event.chat_id, new_filename, progress_callback=progress.progress_callback,
                            force_document=False, caption=f'@{bot.username}')

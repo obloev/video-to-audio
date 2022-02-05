@@ -5,6 +5,7 @@ import time
 
 from telethon import types, functions
 
+from loader import client
 from plugins.texts import down_up_messages, converting_progress_messages, converting_messages
 
 
@@ -37,9 +38,10 @@ def progress_bar(percent: int) -> str:
 
 
 class Progress:
-    def __init__(self, message, lang):
+    def __init__(self, message, lang, sending=False):
         self.message = message
         self.lang = lang
+        self.sending = sending
         self.last_size = 0
         self.last_time = time.time()
         self.count = 0
@@ -52,6 +54,8 @@ class Progress:
         self.last_size = current
         self.last_time = now
         if self.count % 6 == 0:
+            if self.sending:
+                await client(uploading_audio_action(self.message.sender_id))
             await self.message.edit(
                 down_up_messages[self.lang].format(
                     progress_bar(percent), self.message.text, percent, size(current),
